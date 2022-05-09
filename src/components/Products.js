@@ -2,20 +2,25 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 import { add } from "../store/cartSlice";
-import { useDispatch } from "react-redux";
+import {fetchProducts} from "../store/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {STATUSES} from "../store/productSlice";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
+  const {data : products , status } = useSelector((state) => state.product);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await fetch("https://fakestoreapi.com/products");
-      const data = await res.json();
-      console.log(data);
-      setProducts(data);
-    };
-    fetchProducts();
+
+    dispatch(fetchProducts())
+    // const fetchProducts = async () => {
+    //   const res = await fetch("https://fakestoreapi.com/products");
+    //   const data = await res.json();
+    //   console.log(data);
+    //   setProducts(data);
+    // };
+    // fetchProducts();
   }, []);
 
   // calling add peoduct action
@@ -23,6 +28,12 @@ const Products = () => {
   const handleAdd = (product) => {
     dispatch(add(product));
   };
+
+
+  if( status === STATUSES.LOADING ) {
+    return <h2>Loading...</h2>;
+
+  }
 
   return (
     <div className="productsWrapper">
