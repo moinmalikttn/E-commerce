@@ -1,15 +1,16 @@
 import React from "react";
+import "./style.css"
 
 import { useState, useEffect } from "react";
 import { add } from "../store/cartSlice";
-import {fetchProducts} from "../store/productSlice";
+import { fetchProducts } from "../store/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {STATUSES} from "../store/productSlice";
+import { STATUSES } from "../store/productSlice";
 
 const Products = () => {
   // const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
-  const {data : products , status } = useSelector((state) => state.product);
+  const { data: products, status } = useSelector((state) => state.product);
 
   useEffect(() => {
 
@@ -30,14 +31,13 @@ const Products = () => {
   };
 
 
-  if( status === STATUSES.LOADING ) {
-    return <h2>Loading...</h2>;
+  if (status === STATUSES.LOADING) {
+    return <span class="loader"></span>;
 
   }
 
 
-  if (status === STATUSES.ERROR)
-  {
+  if (status === STATUSES.ERROR) {
     return <h2>Somehting went wrong....</h2>
   }
 
